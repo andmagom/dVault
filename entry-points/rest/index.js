@@ -1,9 +1,18 @@
 const express = require('express');
-const logger = require('../../use-cases/logger');
+const bodyParser = require('body-parser');
+const newLogger = require('../../use-cases/logger');
+const networkRoute = require('./routes/network');
 
+const logger = newLogger({
+  console_level: 'info',
+  service: 'app',
+});
 const app = express();
-const port = process.env.APP_PORT || 8686;
+app.use(bodyParser.json());
 
+app.use('/network', networkRoute);
+
+const port = process.env.APP_PORT || 8686;
 app.listen(port, () => {
   logger.info(`dVault app listening at http://localhost:${port}`);
 });

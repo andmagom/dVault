@@ -7,7 +7,8 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "run lint && npm run test:run",
-    "test:run": "jest"
+    "test:run": "jest",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -26,8 +27,13 @@
   },
   "homepage": "https://github.com/andmagom/dVault#readme",
   "dependencies": {
+    "@deadcanaries/kadence": "^6.1.12",
+    "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
+    "encoding-down": "^6.3.0",
     "express": "^4.17.1",
+    "leveldown": "^5.6.0",
+    "levelup": "^4.4.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
