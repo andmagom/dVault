@@ -5,6 +5,8 @@ const kadence = require('@deadcanaries/kadence');
 const newLogger = require('./logger');
 const errorUseCase = require('./error');
 
+let serverNode;
+
 const logger = newLogger({
   console_level: 'info',
   service: 'kadence',
@@ -13,6 +15,12 @@ const logger = newLogger({
 const errorCreatingNodeListener = (err, reject) => {
   const errorResponse = errorUseCase.createError('Error creating node', err.message);
   logger.error(`Error creating node: Reason: ${err.message}`);
+  reject(errorResponse);
+};
+
+const errorJoiningNetwork = (err, reject) => {
+  const errorResponse = errorUseCase.createError('Error joining to node', err.message);
+  logger.error(`Error joining to node: Reason: ${err.message}`);
   reject(errorResponse);
 };
 
@@ -64,7 +72,21 @@ function listen(node) {
         identity: Buffer.from(node.identity).toString('hex'),
       };
       node.removeListener('error', errorCreatingNodeListener);
+      serverNode = node;
       resolve(nodeData);
+    });
+  });
+}
+
+function joinNet(nodeData) {
+  return new Promise((resolve, reject) => {
+    serverNode.join([nodeData.identity, {
+      hostname: nodeData.hostname,
+      port: nodeData.port,
+    }], (err) => {
+      if (err) return errorJoiningNetwork(err, reject);
+      logger.info(`Successful connection to the ${nodeData.identity} node`);
+      return resolve(true);
     });
   });
 }
@@ -76,6 +98,12 @@ function createNetwork() {
   return listen(node);
 }
 
+function joinNetwork(nodeData) {
+  return createNetwork()
+    .then(() => joinNet(nodeData));
+}
+
 module.exports = {
   createNetwork,
+  joinNetwork,
 };

@@ -15,8 +15,12 @@ router.post('/', (req, res) => {
     .catch((err) => errorUseCase.createErrorHttp({ res, err, status: 500 }));
 });
 
-router.get('/', (req, res) => {
-
+router.put('/', (req, res) => {
+  const nodeData = req.body;
+  networkUseCase
+    .joinNetwork(nodeData)
+    .then(() => res.sendStatus(200))
+    .catch((err) => errorUseCase.createErrorHttp({ res, err, status: 500 }));
 });
 
 module.exports = router;
