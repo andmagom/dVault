@@ -3,30 +3,37 @@ const leveldown = require('leveldown');
 const encoding = require('encoding-down');
 const kadence = require('@deadcanaries/kadence');
 const newLogger = require('./logger');
+const errorUseCase = require('./error');
 
 const logger = newLogger({
   console_level: 'info',
   service: 'kadence',
 });
 
+const errorCreatingNodeListener = (err, reject) => {
+  const errorResponse = errorUseCase.createError('Error creating node', err.message);
+  logger.error(`Error creating node: Reason: ${err.message}`);
+  reject(errorResponse);
+};
+
 function createIdentity() {
   return kadence.utils.getRandomKeyBuffer();
 }
 
 function createNode(identity) {
-  const node = new kadence.KademliaNode({
+  const nodeKadence = new kadence.KademliaNode({
     transport: new kadence.HTTPTransport(),
     storage: levelup(encoding(leveldown('./data/storage.db'))),
     logger,
     identity,
   });
 
-  return node;
+  return nodeKadence;
 }
 
 function addOnionPlugin(node) {
   return node.plugin(kadence.onion({
-    dataDirectory: '/usr/src/app/hidden_service',
+    dataDirectory: '/Users/andmagom/Documents/code/dVault/hidden_service',
     virtualPort: '443',
     localMapping: '127.0.0.1:1337',
     torrcEntries: {
@@ -41,14 +48,24 @@ function addOnionPlugin(node) {
 }
 
 function listen(node) {
-  node.listen(1337, () => {
-    logger.info(
-      `node listening on local port ${1337} `
-      + `and exposed at ${node.contact.protocol}//${node.contact.hostname}`
-      + `:${node.contact.port}`,
-    );
+  return new Promise((resolve, reject) => {
+    node.once('error', (err) => errorCreatingNodeListener(err, reject));
+    node.listen(1337, () => {
+      logger.info(`Node Identity: ${Buffer.from(node.identity).toString('hex')}`);
+      logger.info(
+        `node listening on local port ${1337} `
+        + `and exposed at ${node.contact.protocol}//${node.contact.hostname}`
+        + `:${node.contact.port}`,
+      );
 
-    logger.info(`Node Identity: ${Buffer.from(node.identity).toString('hex')}`);
+      const nodeData = {
+        hostname: node.contact.hostname,
+        port: node.contact.port,
+        identity: Buffer.from(node.identity).toString('hex'),
+      };
+      node.removeListener('error', errorCreatingNodeListener);
+      resolve(nodeData);
+    });
   });
 }
 
@@ -56,7 +73,7 @@ function createNetwork() {
   const identity = createIdentity();
   const node = createNode(identity);
   node.onion = addOnionPlugin(node);
-  listen(node);
+  return listen(node);
 }
 
 module.exports = {
