@@ -92,10 +92,13 @@ function joinNet(nodeData) {
 }
 
 function createNetwork() {
-  const identity = createIdentity();
-  const node = createNode(identity);
-  node.onion = addOnionPlugin(node);
-  return listen(node);
+  if (serverNode == null) {
+    const identity = createIdentity();
+    const node = createNode(identity);
+    node.onion = addOnionPlugin(node);
+    return listen(node);
+  }
+  return Promise.resolve(true);
 }
 
 function joinNetwork(nodeData) {
@@ -103,7 +106,17 @@ function joinNetwork(nodeData) {
     .then(() => joinNet(nodeData));
 }
 
+function getLogger() {
+  return logger;
+}
+
+function save(key, value) {
+  return serverNode.iterativeStore(key, value);
+}
+
 module.exports = {
   createNetwork,
   joinNetwork,
+  getLogger,
+  save,
 };
