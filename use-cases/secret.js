@@ -32,7 +32,7 @@ function saveAndReplicateChunk(chunk) {
       hash: hashChunk,
       type: 'chunk',
     };
-    const key = hash + keyReplication;
+    const key = hashChunk + keyReplication;
     const promise = network.save(key, data);
     promises.push(promise);
   });
@@ -109,7 +109,9 @@ function addSecret(data) {
     .then(([model, encryptedModel]) => [model, hash.objectHash(encryptedModel), encryptedModel])
     .then(([model, hashEnc, enc]) => saveAndReplicateManifest(data.userid, hashEnc, enc) && model)
     .then((model) => createResponse(model))
-    .catch((err) => Promise.reject(err));
+    .catch((err) => { 
+      return Promise.reject(err); 
+    });
 }
 
 function addInitialSecret(data) {

@@ -1,8 +1,8 @@
 const crypto = require('crypto');
 const hash = require('./hash');
 
-function randomHex() {
-  return crypto.randomBytes(32).toString('hex');
+function randomHex(size) {
+  return crypto.randomBytes(size).toString('hex');
 }
 
 function split(data, splitSize, nReplication) {
@@ -19,7 +19,7 @@ function split(data, splitSize, nReplication) {
     const hashChunk = hash.objectHash(valueChunk);
     const keysReplications = [];
     for (let j = i; j < nReplication; j += 1) {
-      keysReplications.push(randomHex());
+      keysReplications.push(randomHex(3));
     }
 
     json.chunks.push({

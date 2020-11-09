@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const hash = require('./hash');
 
 function encrypt(plain, key, iv) {
-  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
   let encrypted = cipher.update(plain);
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return encrypted.toString('hex');

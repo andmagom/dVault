@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const levelup = require('levelup');
 const leveldown = require('leveldown');
 const encoding = require('encoding-down');
@@ -111,7 +112,8 @@ function getLogger() {
 }
 
 function save(key, value) {
-  return serverNode.iterativeStore(key, value);
+  const kademliaKey = crypto.createHash('rmd160').update(key).digest('hex');
+  return serverNode.iterativeStore(kademliaKey, value);
 }
 
 module.exports = {

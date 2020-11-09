@@ -15,14 +15,14 @@ function variableHash(size, data, inputEncoding) {
   const output = Buffer.alloc(size);
   // Encrypt a zero-filled buffer using the SHA-256 hash as the AES-256 key
   const cipher = crypto.createCipher('aes256', hash);
-  const offset = output.write(cipher.update(output), 'binary');
+  const offset = output.write(cipher.update(output), 0, size, 'binary');
   output.write(cipher.final(), offset, 'binary');
   return output;
 }
 
 function hashKey(key) {
-  const salt = variableHash(32, key, 'utf8');
-  const key256 = pbkdf2.pbkdf2Sync(key, salt, 1, 256 / 8, 'sha512');
+  // const salt = variableHash(32, key, 'utf8');
+  const key256 = pbkdf2.pbkdf2Sync(key, key, 1, 256 / 8, 'sha512');
   return key256;
 }
 

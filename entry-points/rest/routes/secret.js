@@ -11,7 +11,7 @@ function createResponsePasswordAdded(res, data) {
 router.post('/initial', (req, res) => {
   const data = {
     content: req.body.content,
-    passwd: req.body.passwd,
+    secret: req.body.passwd,
   };
   secretUseCase.addInitialSecret(data)
     .then((response) => createResponsePasswordAdded(res, response))
