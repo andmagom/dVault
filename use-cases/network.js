@@ -8,6 +8,8 @@ const errorUseCase = require('./error');
 
 let serverNode;
 
+const TOR_FOLDER = process.env.TOR_FOLDER || '/usr/src/app/hidden_service';
+
 const logger = newLogger({
   console_level: 'info',
   service: 'kadence',
@@ -42,7 +44,7 @@ function createNode(identity) {
 
 function addOnionPlugin(node) {
   return node.plugin(kadence.onion({
-    dataDirectory: '/Users/andmagom/Documents/code/dVault/hidden_service',
+    dataDirectory: TOR_FOLDER,
     virtualPort: '443',
     localMapping: '127.0.0.1:1337',
     torrcEntries: {
@@ -111,9 +113,17 @@ function getLogger() {
   return logger;
 }
 
+function getKademliaKey(key) {
+  return crypto.createHash('rmd160').update(key).digest('hex');
+}
 function save(key, value) {
-  const kademliaKey = crypto.createHash('rmd160').update(key).digest('hex');
+  const kademliaKey = getKademliaKey(key);
   return serverNode.iterativeStore(kademliaKey, value);
+}
+
+function get(key) {
+  const kademliaKey = getKademliaKey(key);
+  return serverNode.iterativeFindValue(kademliaKey);
 }
 
 module.exports = {
@@ -121,4 +131,5 @@ module.exports = {
   joinNetwork,
   getLogger,
   save,
+  get,
 };

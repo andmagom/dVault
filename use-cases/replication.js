@@ -18,7 +18,7 @@ function split(data, splitSize, nReplication) {
     const valueChunk = values[i];
     const hashChunk = hash.objectHash(valueChunk);
     const keysReplications = [];
-    for (let j = i; j < nReplication; j += 1) {
+    for (let j = 0; j < nReplication; j += 1) {
       keysReplications.push(randomHex(3));
     }
 

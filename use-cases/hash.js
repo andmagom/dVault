@@ -21,7 +21,6 @@ function variableHash(size, data, inputEncoding) {
 }
 
 function hashKey(key) {
-  // const salt = variableHash(32, key, 'utf8');
   const key256 = pbkdf2.pbkdf2Sync(key, key, 1, 256 / 8, 'sha512');
   return key256;
 }

@@ -10,7 +10,7 @@ function encrypt(plain, key, iv) {
 
 function decrypt(encrypted, key, iv) {
   const encryptedText = Buffer.from(encrypted, 'hex');
-  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(iv, 'hex'));
   let decrypted = decipher.update(encryptedText);
   decrypted = Buffer.concat([decrypted, decipher.final()]);
   return decrypted.toString();
@@ -33,6 +33,7 @@ function cipherObjectKey(object, key) {
   const data = JSON.stringify(object);
   return {
     encrypted: encrypt(data, key256, iv),
+    iv: iv.toString('hex'),
   };
 }
 
@@ -41,8 +42,14 @@ function decipherObject(encrypted, key, iv) {
   return JSON.parse(plain);
 }
 
+function decipherObjectKey(data, key, iv) {
+  const key256 = hash.hashKey(key);
+  return decrypt(data, key256, iv);
+}
+
 module.exports = {
   cipherObject,
   cipherObjectKey,
   decipherObject,
+  decipherObjectKey,
 };
