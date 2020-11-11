@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const secretUseCase = require('../../../use-cases/secret');
 const errorUseCase = require('../../../use-cases/error');
+const authUseCase = require('../../../use-cases/auth');
 
 const router = Router();
 
@@ -9,16 +10,15 @@ function createResponsePasswordAdded(res, data) {
 }
 
 router.post('/', (req, res) => {
-  const { username } = req.session;
-
   const data = {
     content: req.body.content,
-    lastId: req.body.lastId,
-    id: req.body.id,
-    userid: username,
+    secret: req.body.password,
+    userid: req.body.username,
   };
 
-  secretUseCase.addSubsequentSecret(data)
+  secretUseCase.addInitialSecret(data)
+    .then((secretCreated) => authUseCase.createSession(req.session,
+      { username: data.userid }, secretCreated))
     .then((response) => createResponsePasswordAdded(res, response))
     .catch((err) => errorUseCase.createErrorHttp({ res, err, status: 500 }));
 });

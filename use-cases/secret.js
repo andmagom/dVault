@@ -66,7 +66,7 @@ function splitAndSaveContent(contentEncrypted) {
     });
 }
 
-function createModel(data, splittedData, contentEncrypted) {
+function createManifestModel(data, splittedData, contentEncrypted, first) {
   const plain = {
     id: data.id,
     secret: contentEncrypted.key,
@@ -77,6 +77,7 @@ function createModel(data, splittedData, contentEncrypted) {
     nextId: uuidv4(),
     value: splittedData,
   };
+  if (first) plain.id = uuidv4();
   return plain;
 }
 
@@ -99,16 +100,17 @@ function createResponse(model) {
   return {
     message: 'Secret Added',
     nextId: model.nextId,
+    lastId: model.id,
   };
 }
 
-function addSecret(data) {
+function addSecret(data, first) {
   const contentEncrypted = cipher.cipherObject(data.content);
   return splitAndSaveContent(contentEncrypted)
-    .then((splittedData) => createModel(data, splittedData, contentEncrypted))
+    .then((splittedData) => createManifestModel(data, splittedData, contentEncrypted, first))
     .then((model) => [model, cipher.cipherObjectKey(model, data.secret)])
     .then(([model, encModel]) => [model, hash.objectHash(encModel.encrypted), encModel])
-    .then(([model, hashEnc, enc]) => saveAndReplicateManifest(data.userid, hashEnc, enc) && model)
+    .then(([model, hashEnc, enc]) => saveAndReplicateManifest(data.id, hashEnc, enc) && model)
     .then((model) => createResponse(model))
     .catch((err) => Promise.reject(err));
 }
@@ -178,28 +180,53 @@ function mergeChunksAndGetSecret(manifest) {
       Buffer.from(manifest.secret, 'hex'), Buffer.from(manifest.iv, 'hex')));
 }
 
+async function responseGetSecret(manifest, secretPromise) {
+  const secret = await secretPromise;
+  const response = {
+    metadata: {
+      nextId: manifest.nextId,
+      id: manifest.id,
+    },
+    data: secret,
+  };
+  return response;
+}
+
 function getSecret(auth) {
   const id = auth.username;
   return getManifest(id)
     .then((encryptedManifest) => decryptManifest(encryptedManifest, auth.password))
-    .then((manifest) => mergeChunksAndGetSecret(manifest))
+    .then((manifest) => [manifest, mergeChunksAndGetSecret(manifest)])
+    .then(([manifest, secret]) => responseGetSecret(manifest, secret))
     .catch((err) => Promise.reject(err));
 }
 
 function addInitialSecret(data) {
   const opts = {
-    id: '0',
+    id: data.userid,
     version: 1,
     content: data.content,
     secret: data.secret,
     userid: data.userid,
   };
-  const valueToSave = addSecret(opts);
+  const valueToSave = addSecret(opts, true);
+  return valueToSave;
+}
+
+function addSubsequentSecret(data) {
+  const opts = {
+    id: data.id,
+    version: 1,
+    content: data.content,
+    secret: data.lastId,
+    userid: data.userid,
+  };
+  const valueToSave = addSecret(opts, false);
   return valueToSave;
 }
 
 module.exports = {
   addInitialSecret,
-  addSecret,
+  addSubsequentSecret,
   getSecret,
 };
