@@ -1,2 +1,4 @@
 require('dotenv').config();
-require('./entry-points/rest');
+const httpServer = require('./entry-points/rest');
+require('./entry-points/socket')(httpServer);
+require('./use-cases/network').createNetwork();

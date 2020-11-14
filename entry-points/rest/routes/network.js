@@ -8,6 +8,13 @@ function createResponseNetworkCreated(res, nodeData) {
   res.status(201).send(nodeData);
 }
 
+router.get('/', (req, res) => {
+  const nodeInfo = networkUseCase
+    .getNodeInfo();
+  if (nodeInfo.error) res.status(400);
+  res.send(nodeInfo);
+});
+
 router.post('/', (req, res) => {
   networkUseCase
     .createNetwork()

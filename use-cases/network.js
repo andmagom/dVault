@@ -9,6 +9,7 @@ const errorUseCase = require('./error');
 let serverNode;
 
 const TOR_FOLDER = process.env.TOR_FOLDER || '/usr/src/app/hidden_service';
+const KADENCE_REFRESH = process.env.KADENCE_REFRESH || 36000;
 
 const logger = newLogger({
   console_level: 'info',
@@ -58,6 +59,23 @@ function addOnionPlugin(node) {
   }));
 }
 
+function getNodeInfo(node) {
+  if (!node && !serverNode) {
+    return {
+      error: {
+        title: 'Node not Connected',
+        message: 'This node isn\'t conected to any network yet',
+      },
+    };
+  }
+  const nodeData = node || serverNode;
+  return {
+    hostname: nodeData.contact.hostname,
+    port: nodeData.contact.port,
+    identity: Buffer.from(nodeData.identity).toString('hex'),
+  };
+}
+
 function listen(node) {
   return new Promise((resolve, reject) => {
     node.once('error', (err) => errorCreatingNodeListener(err, reject));
@@ -69,12 +87,13 @@ function listen(node) {
         + `:${node.contact.port}`,
       );
 
-      const nodeData = {
-        hostname: node.contact.hostname,
-        port: node.contact.port,
-        identity: Buffer.from(node.identity).toString('hex'),
-      };
+      const nodeData = getNodeInfo(node);
       node.removeListener('error', errorCreatingNodeListener);
+      // Refresh router contacts
+      setInterval(
+        kadence.utils.preventConvoy(() => logger.debug('refreshing kadence router') && node.refresh(0)),
+        KADENCE_REFRESH,
+      );
       serverNode = node;
       resolve(nodeData);
     });
@@ -101,7 +120,7 @@ function createNetwork() {
     node.onion = addOnionPlugin(node);
     return listen(node);
   }
-  return Promise.resolve(true);
+  return Promise.resolve(getNodeInfo(serverNode));
 }
 
 function joinNetwork(nodeData) {
@@ -130,6 +149,7 @@ module.exports = {
   createNetwork,
   joinNetwork,
   getLogger,
+  getNodeInfo,
   save,
   get,
 };

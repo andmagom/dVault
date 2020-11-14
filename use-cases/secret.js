@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const { v4: uuidv4 } = require('uuid');
 const newLogger = require('./logger');
 const errorUseCase = require('./error');
@@ -6,8 +7,8 @@ const cipher = require('./cipher');
 const hash = require('./hash');
 const network = require('./network');
 
-const splitSize = process.env.SECRET_SPLIT_SIZE_BYTES || 15;
-const nReplication = process.env.NUMBER_REPLICATIONS || 10;
+const splitSize = process.env.SECRET_SPLIT_SIZE_BYTES || 50;
+const nReplication = process.env.NUMBER_REPLICATIONS || 4;
 
 const logger = newLogger({
   console_level: 'info',
@@ -118,7 +119,6 @@ function addSecret(data, first) {
 async function getManifest(id) {
   for (let i = 0; i < nReplication; i += 1) {
     const key = `${id}#${i}`;
-    // eslint-disable-next-line no-await-in-loop
     const response = await network.get(key);
     if (response.value) {
       const hashValue = hash.objectHash(response.value.data);
@@ -127,7 +127,7 @@ async function getManifest(id) {
   }
   const msg = 'Not possible to get Manifest';
   logger.error(msg);
-  throw new Error(msg);
+  return Promise.reject(msg);
 }
 
 function decryptManifest(encryptedManifest, secret) {
@@ -139,7 +139,6 @@ function decryptManifest(encryptedManifest, secret) {
 async function getChunk(chunk) {
   for (let i = 0; i < chunk.keys.length; i += 1) {
     const key = chunk.hash + chunk.keys[i];
-    // eslint-disable-next-line no-await-in-loop
     const response = await network.get(key);
     if (response.value) {
       const hashValue = hash.objectHash(response.value.value);
@@ -192,7 +191,7 @@ async function responseGetSecret(manifest, secretPromise) {
   return response;
 }
 
-function getSecret(auth) {
+function getFirsSecret(auth) {
   const id = auth.username;
   return getManifest(id)
     .then((encryptedManifest) => decryptManifest(encryptedManifest, auth.password))
@@ -225,8 +224,45 @@ function addSubsequentSecret(data) {
   return valueToSave;
 }
 
+function verifyNotFoundError(err) {
+  if (err !== 'Not possible to get Manifest') {
+    return Promise.reject(err);
+  }
+  return Promise.resolve(false);
+}
+
+async function getSecrets(data, socket) {
+  let id = data.nextId;
+  let password = data.lastId;
+  let sentinel = true;
+  while (sentinel) {
+    const manifestAndSecret = await getManifest(id)
+      // eslint-disable-next-line no-loop-func
+      .then((encryptedManifest) => decryptManifest(encryptedManifest, password))
+      .then((manifest) => [manifest, mergeChunksAndGetSecret(manifest)])
+      .catch((err) => verifyNotFoundError(err, socket));
+
+    if (Array.isArray(manifestAndSecret)) {
+      id = manifestAndSecret[0].nextId;
+      password = manifestAndSecret[0].id;
+      const secretInfo = await manifestAndSecret[1];
+      socket.emit('SecretFound', secretInfo);
+    } else if (manifestAndSecret === false) {
+      sentinel = false;
+      const endBlock = {
+        id,
+        password,
+      };
+      socket.emit('SecretEnd', endBlock);
+    } else {
+      socket.emit('SecretError', 'Error getting Secrets');
+    }
+  }
+}
+
 module.exports = {
   addInitialSecret,
   addSubsequentSecret,
-  getSecret,
+  getFirsSecret,
+  getSecrets,
 };

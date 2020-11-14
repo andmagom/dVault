@@ -8,6 +8,14 @@ function createResponsePasswordAdded(res, data) {
   res.status(201).send(data);
 }
 
+router.use((req, res, next) => {
+  if (req.session) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.post('/', (req, res) => {
   const { username } = req.session;
 

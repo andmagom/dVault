@@ -12,7 +12,7 @@ function createResponse(res, data) {
 router.get('/', (req, res) => {
   const authHeader = req.headers.authorization;
   const auth = authUseCase.getAuth(authHeader);
-  secretUseCase.getSecret(auth)
+  secretUseCase.getFirsSecret(auth)
     .then((firstSecret) => authUseCase.createSession(req.session, auth, firstSecret))
     .then((firstSecret) => createResponse(res, firstSecret))
     .catch((err) => errorUseCase.createErrorHttp({ res, err, status: 500 }));
