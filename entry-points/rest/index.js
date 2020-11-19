@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const session = require('express-session');
 const http = require('http');
 const newLogger = require('../../use-cases/logger');
@@ -16,6 +17,7 @@ const logger = newLogger({
 });
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use(express.static('public'));
 

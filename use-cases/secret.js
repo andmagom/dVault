@@ -184,7 +184,7 @@ async function responseGetSecret(manifest, secretPromise) {
   const response = {
     metadata: {
       nextId: manifest.nextId,
-      id: manifest.id,
+      lastId: manifest.id,
     },
     data: secret,
   };
@@ -250,8 +250,8 @@ async function getSecrets(data, socket) {
     } else if (manifestAndSecret === false) {
       sentinel = false;
       const endBlock = {
-        id,
-        password,
+        nextId: id,
+        lastId: password,
       };
       socket.emit('SecretEnd', endBlock);
     } else {
