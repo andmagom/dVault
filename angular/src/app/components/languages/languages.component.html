@@ -1,0 +1,8 @@
+<mat-form-field class="languages">
+  <mat-select [(value)]="selected" class="flags" [ngClass]="selected" (selectionChange)="switchLanguage($event.value)">
+      <mat-option *ngFor="let lang of languages" value="{{lang.txt}}">
+          <img with="20" height="20" src="assets/images/flags/{{lang.img}}.png">
+          <span style="margin-left: 10%;">{{lang.txt}}</span>
+      </mat-option>
+  </mat-select>
+</mat-form-field>

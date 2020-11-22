@@ -1,0 +1,27 @@
+.ES{
+  background:  url("/assets/images/flags/CO.png")  left / contain no-repeat;
+}
+
+.EN{
+  background:  url("/assets/images/flags/US.png")  left / contain no-repeat;
+}
+
+.flags {
+  white-space: nowrap;
+  display:inline;
+  padding-left: 25px;
+}
+
+.languages {
+  width: 11%;
+  font-size: 15px;
+  text-align: end;
+}
+
+.languages ::ng-deep.mat-select-value {
+  display: contents !important;
+}
+
+.languages ::ng-deep.mat-form-field-underline {
+  display: none;
+}

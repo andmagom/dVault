@@ -1,0 +1,50 @@
+{
+  "name": "dvault",
+  "version": "1.0.0",
+  "description": "Decentralized Password Manager over Tor",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "run lint && npm run test:run",
+    "test:run": "jest",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andmagom/dVault.git"
+  },
+  "keywords": [
+    "tor",
+    "dVault",
+    "decentralized",
+    "password"
+  ],
+  "author": "andmagom",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andmagom/dVault/issues"
+  },
+  "homepage": "https://github.com/andmagom/dVault#readme",
+  "dependencies": {
+    "@deadcanaries/kadence": "^6.1.12",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "encoding-down": "^6.3.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "leveldown": "^5.6.0",
+    "levelup": "^4.4.0",
+    "object-hash": "^2.0.3",
+    "pbkdf2": "^3.1.1",
+    "socket.io": "^3.0.1",
+    "uuid": "^8.3.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}

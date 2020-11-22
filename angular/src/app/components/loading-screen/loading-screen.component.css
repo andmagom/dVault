@@ -1,0 +1,98 @@
+.preloader {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: #ffffff66;
+  transition: all 0.6s linear;
+  opacity: 1;
+  top: 0;
+  left: 0;
+}
+.preloader.hidden {
+  opacity: 0;
+  z-index: -1;
+}
+.pre-container {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.double-bounce1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(33, 133, 247, 0.5);
+  transform-origin: 50% 50%;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  animation: bounce1 3s infinite;
+}
+.double-bounce2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(33, 133, 247, 0.5);
+  transform-origin: 50% 50%;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  animation: bounce2 3s infinite;
+}
+
+@keyframes bounce1 {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@-webkit-keyframes bounce1 {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes bounce2 {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes bounce2 {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,46 @@
+<form class="example-form" [formGroup]="networkForm" (ngSubmit)="onSubmit()">
+
+  <mat-form-field class="input-full-width">
+    <mat-label>{{ 'form.url' | translate }}</mat-label>
+    <input matInput formControlName="hostname" required />
+    <mat-error *ngIf="!f.hostname.errors?.required && f.hostname.errors?.minlength">
+      {{ 'form.error.url.invalid' | translate }}
+    </mat-error>
+    <mat-error *ngIf="f.hostname.errors?.required">
+      {{ 'form.error.url.required' | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="input-full-width">
+    <mat-label>{{ 'form.identity' | translate }}</mat-label>
+    <input matInput formControlName="identity" required />
+    <mat-error *ngIf="f.identity.errors?.required && !f.identity.errors?.minlength">
+      {{ 'form.error.identity.required' | translate }}
+    </mat-error>
+    <mat-error *ngIf="f.identity.errors?.minlength">
+      {{ 'form.error.identity.length' | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <div class="buttons">
+    <div *ngIf="data.mode === 'create'">
+      <button mat-raised-button [disabled]="loading" class="button btnPrimary">
+        <span *ngIf="!loading">{{ 'buttons.download' | translate }}</span>
+        <mat-spinner *ngIf="loading" [diameter]="30" style="margin: 7px auto;"></mat-spinner>
+      </button>
+      <button type="button" mat-raised-button (click)="goToLogin()" class="button btnSecondary">
+        {{ 'buttons.login' | translate }}
+      </button>
+    </div>
+    <div *ngIf="data.mode === 'connect'">
+      <button mat-raised-button [disabled]="loading" class="button btnPrimary">
+        <span *ngIf="!loading">{{ 'buttons.connect' | translate }}</span>
+        <mat-spinner *ngIf="loading" [diameter]="30" style="margin: 7px auto;"></mat-spinner>
+      </button>
+      <button type="button" mat-raised-button (click)="close()" class="button btnSecondary">
+        {{ 'buttons.cancel' | translate }}
+      </button>
+    </div>
+  </div>
+</form>
+<app-loading-screen *ngIf="loading"></app-loading-screen>
