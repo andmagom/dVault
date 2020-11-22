@@ -1,0 +1,46 @@
+<div class="languages">
+  <app-languages></app-languages>
+</div>
+<div class="contentSectionContainer">
+  <div class="vertical-center">
+    <img src="assets/images/login.png" style="width: 100px; height: 100px;" ondragstart="return false" alt="taxia-logo" />
+    <h1>{{ 'login.title' | translate }}</h1>
+    <p class="color-secondary">{{ 'login.subTitle' | translate }}</p>
+    <form class="example-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <mat-form-field class="input-full-width">
+        <mat-label>{{ 'form.username' | translate }}</mat-label>
+        <input matInput formControlName="username" required />
+        <mat-error *ngIf="!f.username.errors?.required && f.username.errors?.minlength">
+          {{ 'form.error.username.length' | translate }}
+        </mat-error>
+        <mat-error *ngIf="f.username.errors?.required">
+          {{ 'form.error.username.required' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="input-full-width">
+        <mat-label>{{ 'form.password' | translate }}</mat-label>
+        <input matInput formControlName="password" required name="passwordLogin" type="password" />
+        <mat-error *ngIf="f.password.errors?.required && !f.password.errors?.minlength">
+          {{ 'form.error.password.required' | translate }}
+        </mat-error>
+        <mat-error *ngIf="f.password.errors?.minlength">
+          {{ 'form.error.password.length' | translate }}
+        </mat-error>
+      </mat-form-field>
+      
+      <div class="buttons">
+        <button mat-raised-button [disabled]="loading" class="btnLogin">
+          <span *ngIf="mode == 'login' && !loading">{{ 'buttons.login' | translate }}</span>
+          <span *ngIf="mode == 'register' && !loading">{{ 'buttons.register' | translate }}</span>
+          <mat-spinner *ngIf="loading" [diameter]="30" style="margin: 7px auto;" ></mat-spinner>
+        </button>
+      </div>
+      <p class="cursor-pointer confidentiality" (click)="changeMode()">
+        <span *ngIf="mode == 'login'">{{ 'login.goToRegister' | translate }}</span>
+        <span *ngIf="mode == 'register'">{{ 'login.goToLogin' | translate }}</span>
+      </p>
+    </form>
+  </div>
+</div>

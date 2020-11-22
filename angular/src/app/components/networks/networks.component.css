@@ -1,0 +1,11 @@
+.cards {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 90vh;
+}
+
+.card{
+  width: 40%;
+  cursor: pointer;
+}

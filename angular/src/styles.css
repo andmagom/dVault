@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --color-primary: #090b48;
+  --color-secondary: rgb(208, 208, 208);
+  --color-green: #91cf26;
+  --color-red: #ff6565;
+  --color-yellow: #fec163;
+}
+
+.btnPrimary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btnSecondary {
+  background-color: var(--color-secondary);
+  color: black;
+}
+
+.button{
+  width: 100%;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.input-full-width {
+  width: 100%;
+}
