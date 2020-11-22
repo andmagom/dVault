@@ -1,0 +1,74 @@
+.languages {
+  position: absolute;
+  margin-top: 5%;
+  font-size: 12px;
+  right: 10%;
+}
+
+.contentSectionContainer {
+  text-align: center;
+  position: relative;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+
+.invalid-feedback {
+  text-align: left;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.mat-form-field {
+  display: block;
+  position: relative;
+  text-align: left;
+}
+
+.color-options {
+  color: #43425d;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btnLogin {
+  background-color: var(--color-primary);
+  color: white;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.btnLoginRegister {
+  background-color: var(--color-primary);
+  color: white;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 30px;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.confidentiality {
+  margin-top: 20px;
+  color: gray;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: white;
+}

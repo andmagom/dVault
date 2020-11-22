@@ -1,0 +1,71 @@
+{
+    "login": {
+        "title": "Dvault",
+        "goToRegister": "Register User",
+        "goToLogin": "Go to Login",
+        "subTitle": "Dvault"
+    },
+    "buttons": {
+        "login": "Login",
+        "register": "Register",
+        "download": "Download QR",
+        "connect": "Connect",
+        "cancel": "Cancel",
+        "create": "Create",
+        "close": "Close"
+    },
+    "networks": {
+        "create": "Create a network",
+        "create-description": "Create a network description",
+        "connect": "Connect a network",
+        "connect-description": "Connect a network description"
+    },
+    "secret": {
+        "no-data": "No data matching the filter"
+    },
+    "menu": {
+        "network": "Network",
+        "secret": "Secret",
+        "qr": "Download QR"
+    },
+    "form": {
+        "username": "Username",
+        "password": "Password",
+        "url": "Url",
+        "identity": "Identity",
+        "platform": "Platform",
+        "user": "User",
+        "description": "Description",
+        "date": "Date",
+        "actions": "Actions",
+        "error": {
+            "username": {
+                "required": "The username is required",
+                "length": "The username must have at least 6 characters"
+            },
+            "password": {
+                "required": "The password is required",
+                "length": "The password must have at least 6 characters"
+            },
+            "url": {
+                "required": "The url is required",
+                "length": "The url must have at least 6 characters"
+            },
+            "identity": {
+                "required": "The identity is required",
+                "length": "The identity must have at least 6 characters"
+            }
+        }
+    },
+    "messages" : {
+        "network": {
+            "connected": "Successfull connection",
+            "error": "Error to connect",
+            "error-create": "Error to create"
+        },
+        "secret": {
+            "success-create": "Successfull secret",
+            "error-create": "Error creating secret"
+        }
+    }
+}

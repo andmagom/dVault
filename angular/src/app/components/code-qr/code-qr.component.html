@@ -1,0 +1,6 @@
+<ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="data.dataQR"
+  cssClass="bshadow" style="text-align: center;">
+</ngx-qrcode>
+<button type="button" mat-raised-button (click)="close()" class="button btnSecondary">
+  {{ 'buttons.close' | translate }}
+</button>

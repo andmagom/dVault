@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span style="margin-left: 5%;">Dvault</span>
+    <div class="menus">
+      <span class="menu" [routerLink]="['/networks']">{{ "menu.network" | translate }}</span>
+      <span class="menu" [routerLink]="['/secrets']">{{ "menu.secret" | translate }}</span>
+      <span class="menu" (click)="downloadQr()">{{ "menu.qr" | translate }}</span>
+      <mat-icon style="cursor: pointer;" (click)='logout()' *ngIf="userInSession">logout</mat-icon>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
