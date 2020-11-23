@@ -31,6 +31,9 @@
       <button type="button" mat-raised-button (click)="goToLogin()" class="button btnSecondary">
         {{ 'buttons.login' | translate }}
       </button>
+      <button type="button" mat-raised-button (click)="close()" class="button btnSecondary">
+        {{ 'buttons.cancel' | translate }}
+      </button>
     </div>
     <div *ngIf="data.mode === 'connect'">
       <button mat-raised-button [disabled]="loading" class="button btnPrimary">
