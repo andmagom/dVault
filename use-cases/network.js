@@ -8,8 +8,8 @@ const errorUseCase = require('./error');
 
 let serverNode;
 
-const TOR_FOLDER = process.env.TOR_FOLDER || '/usr/src/app/hidden_service';
-const KADENCE_REFRESH = process.env.KADENCE_REFRESH || 36000;
+const TOR_FOLDER = process.env.TOR_FOLDER || '/usr/src/app/data/hidden_service';
+const KADENCE_REFRESH = process.env.KADENCE_REFRESH || 300000;
 
 const logger = newLogger({
   console_level: 'info',
