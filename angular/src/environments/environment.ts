@@ -6,7 +6,14 @@ export const environment = {
   production: false,
   apiServer: 'http://localhost:8686/api',
   apiSocket: 'http://localhost:8686',
-  secretKey: 's4hu6HUmcEtBpQGhg4Ts'
+  secretKey: 's4hu6HUmcEtBpQGhg4Ts',
+  seedServers: [{
+    url: '2n4oende3oe3xcern5wmm6audpxxnxa5pazugem4vmb2wp75dadyjxid.onion',
+    identity: '9445396c50a6d69cbd1f15e5a3a47bf92e7c564c'
+  }, {
+    url: 'u6hqxhaaqbazqi4snugjxvmmz2epnzuwao72dijckddntc5hpdef4ayd.onion',
+    identity: '3db62c4f8097e9bdb5ce2bee4f24823b6be72f74'
+  }],
 };
 
 /*

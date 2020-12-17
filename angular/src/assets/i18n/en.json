@@ -15,10 +15,8 @@
         "close": "Close"
     },
     "networks": {
-        "create": "Create a network",
-        "create-description": "Create a network description",
-        "connect": "Connect a network",
-        "connect-description": "Connect a network description"
+        "create": "Create a new network",
+        "connect": "Connect an existing network",
     },
     "secret": {
         "no-data": "No data matching the filter"

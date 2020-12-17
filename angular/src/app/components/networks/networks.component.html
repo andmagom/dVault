@@ -3,23 +3,15 @@
   <mat-card class="card" (click)="openDialog(true)">
     <mat-card-header>
       <mat-card-title>{{ "networks.create" | translate}}</mat-card-title>
-      <mat-card-subtitle>{{ "networks.create" | translate}}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image src="https://media.gcflearnfree.org/content/55e07819bae0135431cfdcc3_12_17_2013/Networking_image.jpg" alt="">
-    <mat-card-content>
-      <p>{{ "networks.create-description" | translate}}</p>
-    </mat-card-content>
   </mat-card>
   <mat-card class="card" (click)="openDialog(false)">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
       <mat-card-title>{{ "networks.connect" | translate}}</mat-card-title>
-      <mat-card-subtitle>{{ "networks.connect" | translate}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://media.gcflearnfree.org/content/55e07819bae0135431cfdcc3_12_17_2013/Networking_image.jpg" alt="">
-    <mat-card-content>
-      <p>{{ "networks.connect-description" | translate}}</p>
-    </mat-card-content>
+    <img mat-card-image src="https://www.lebow.drexel.edu/sites/default/files/story/1501077931-network.jpg" alt="">
   </mat-card>
 </div>
 <app-loading-screen *ngIf="loading"></app-loading-screen>
