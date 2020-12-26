@@ -36,7 +36,6 @@ dVault let you modify some parameters for change the default behaivor, just prov
 
 ### Environment variables
 
-* **APP_PORT**: Network port of dvault server. **default:** 8686
 * **SECRET_SPLIT_SIZE_BYTES**: Bytes to split data. **default:** 70
 * **NUMBER_REPLICATIONS**: Number of data replications between nodes further the Kademlia replication. **default:** 4
 * **COOKIE_SECRET**: Secret for encrypting data at the browser. **default:** dVault
