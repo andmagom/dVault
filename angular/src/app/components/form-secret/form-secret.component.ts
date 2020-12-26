@@ -57,7 +57,6 @@ export class FormSecretComponent implements OnInit {
       "lastId": lastIds.lastId,
       "content": dataForm
     }
-    console.log(data);
     this.loading = true;
     this.secretService.create(data).subscribe(res => {
       this.loading = false;

@@ -18,9 +18,9 @@
     "networks": {
         "create": "Create a network",
         "create-description": "Create a network description",
-        "connect": "Connect a network",
+        "connect": "Connect to a network",
         "connect-description": "Connect a network description",
-        "default": "Connect a default network",
+        "default": "Connect to a default network",
         "default-description": "Connect a default network description"
     },
     "secret": {
@@ -29,7 +29,8 @@
     "menu": {
         "network": "Network",
         "secret": "Secret",
-        "qr": "Download QR"
+        "qr": "Download QR",
+        "login": "Login"
     },
     "form": {
         "username": "Username",

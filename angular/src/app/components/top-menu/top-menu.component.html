@@ -6,8 +6,9 @@
         <app-languages></app-languages>
       </div> -->
       <app-languages class="languages"></app-languages> 
-      <span class="menu" [routerLink]="['/networks']">{{ "menu.network" | translate }}</span>
-      <span class="menu" [routerLink]="['/secrets']">{{ "menu.secret" | translate }}</span>
+      <span class="menu" (click)="changeRegirect('/login')">{{ "menu.login" | translate }}</span>
+      <span class="menu" (click)="changeRegirect('/networks')">{{ "menu.network" | translate }}</span>
+      <span class="menu" (click)="changeRegirect('/secrets')" *ngIf="userInSession">{{ "menu.secret" | translate }}</span>
       <span class="menu" (click)="downloadQr()">{{ "menu.qr" | translate }}</span>
       <mat-icon style="cursor: pointer;" (click)='logout()' *ngIf="userInSession">logout</mat-icon>
     </div>

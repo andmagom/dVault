@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessagesService } from 'src/app/services/messages/messages.service';
 import { NetworksService } from 'src/app/services/networks/networks.service';
 import { TranslateServiceLocal } from 'src/app/services/translate/translate.service';
+import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 
 declare const ZXing: any;
 
@@ -18,6 +19,9 @@ export class FormNetworkComponent implements OnInit {
   networkForm: FormGroup;
   loading = false;
   codeReader = new ZXing.BrowserQRCodeReader()
+  elementType = NgxQrcodeElementTypes.URL;
+  correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
+  dataQR;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,7 +52,6 @@ export class FormNetworkComponent implements OnInit {
       try {
         this.codeReader.decodeFromImage(img).then((result) => {
           const data = JSON.parse(result);
-          console.log(data);
           this.networkForm.patchValue({
             hostname: data.hostname,
             identity: data.identity
@@ -70,6 +73,12 @@ export class FormNetworkComponent implements OnInit {
       hostname: [this.data && this.data.url ? this.data.url : '', [Validators.required, Validators.minLength(6)]],
       identity: [this.data && this.data.identity ? this.data.identity : '', [Validators.required, Validators.minLength(6)]]
     });
+    if(this.data && this.data.identity && this.data.identity) {
+      this.dataQR = `{
+        "hostname": "${this.data.url}",
+        "identity": "${this.data.identity}"
+      }`;
+    }
   }
 
   get f() { return this.networkForm.controls; }
@@ -89,6 +98,18 @@ export class FormNetworkComponent implements OnInit {
         this.messagesService.showErrorNotification('messages.network.error', true);
         console.log(error);
       });
+    }
+  }
+
+  downloadQR() {
+    var a = document.getElementsByTagName('img');
+    for (var i in a) {
+      if (a[i].src && a[i].src.substr(0,4) === 'data'){
+        var tagA = document.createElement("a");
+        tagA.href = a[i].src
+        tagA.download = "Dvault_QR.png";
+        tagA.click();
+      }
     }
   }
 

@@ -20,12 +20,10 @@ export class SocketService {
       lastId: ''
     };
     const dataUser = this.loginService.currentUserValue;
-    console.log(dataUser);
     data.nextId = dataUser.nextId;
     data.lastId = dataUser.lastId || dataUser.id;
     
     this.socket.on('connect', _ => {
-      console.log('emitting GetSecrets', data)
       this.socket.emit('GetSecrets', data);
     });
     this.subscribeSecretFound = this.subscribeSecretFound.bind(this);
@@ -35,7 +33,7 @@ export class SocketService {
 
   subscribeSecretFound() {
     return Observable.create((observer) => {
-      this.socket.on('SecretFound', data => {observer.next(data); console.log(data)});
+      this.socket.on('SecretFound', data => {observer.next(data);});
     });
   }
 

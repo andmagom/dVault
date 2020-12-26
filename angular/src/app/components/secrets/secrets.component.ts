@@ -52,7 +52,6 @@ export class SecretsComponent implements OnInit {
   checkUserInSession() {
     const dataUser = this.loginService.currentUserValue;
     const dataUserRegister = this.loginService.getLocalStorage('user_dvault_register');
-    console.log(dataUserRegister);
     if (dataUser) {
       this.userInSession = true;
     }
@@ -66,7 +65,6 @@ export class SecretsComponent implements OnInit {
   }
 
   socketEvents() {
-    console.log('iniciar Socket');
     this.socketService.connect();
     this.socketService.subscribeSecretFound().subscribe(secret => {
       this.secretFound(secret);
@@ -80,13 +78,11 @@ export class SecretsComponent implements OnInit {
   }
 
   secretFound(secret) {
-    console.log('Print', secret);
     this.secrets.push(secret);
     this.dataSource = new MatTableDataSource(this.secrets);
   }
 
   endSecrets(data) {
-    console.log('End', data);
     this.loginService.setLocalStorage('last_secret_dvault', data)
     this.buttonDisabled = false;
     this.loading = false;
@@ -103,7 +99,6 @@ export class SecretsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('closed: ', result)
       if (result) {
         const secret = result.content;
         secret['id'] = result.id;
