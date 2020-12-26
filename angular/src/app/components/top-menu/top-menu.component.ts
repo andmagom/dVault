@@ -38,8 +38,12 @@ export class TopMenuComponent implements OnInit, OnChanges {
   }
 
   downloadQr() {
+    const data = {
+      hostname: 'hostname',
+      identity: 'identity'
+    }
     const dataQR = {
-      dataQR: "https://www.techiediaries.com/"
+      dataQR: JSON.stringify(data)
     }
     this.openModal(dataQR);
   }

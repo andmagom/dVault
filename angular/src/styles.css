@@ -19,6 +19,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .btnSecondary {
   background-color: var(--color-secondary);
   color: black;
+  margin-top: 2% !important;
 }
 
 .button{
@@ -28,5 +29,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .input-full-width {
+  width: 100%;
+}
+
+.mat-card-header-text {
   width: 100%;
 }

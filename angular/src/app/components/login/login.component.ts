@@ -24,15 +24,15 @@ export class LoginComponent implements OnInit {
     private messagesService: MessagesService,
     private translateService: TranslateServiceLocal
   ) {
-    // if (this.loginService.currentUserValue) {
-    //   this.translateService.changeRedirect('/');
-    // }
+    if (this.loginService.currentUserValue) {
+       this.translateService.changeRedirect('/secrets');
+    }
   }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['andresgomez', [Validators.required, Validators.minLength(6)]],
-      password: ['123456', [Validators.required, Validators.minLength(6)]]
+      username: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

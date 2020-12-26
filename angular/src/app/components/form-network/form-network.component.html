@@ -1,5 +1,22 @@
 <form class="example-form" [formGroup]="networkForm" (ngSubmit)="onSubmit()">
 
+  <div style="text-align: center;">
+    <button type="button" mat-fab color="primary" (click)="uploader.click()">
+      <mat-icon>qr_code_2</mat-icon>
+    </button>
+    <input hidden type="file" accept="image/x-png,image/jpg,image/jpeg" #uploader (change)="uploadFile($event)" />
+  </div>
+
+  <div class="containerLine">
+    <div class="line">
+      <mat-divider></mat-divider>
+    </div>
+    <div class="text mat-typography">Or</div>
+    <div class="line">
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+
   <mat-form-field class="input-full-width">
     <mat-label>{{ 'form.url' | translate }}</mat-label>
     <input matInput formControlName="hostname" required />
@@ -28,11 +45,8 @@
         <span *ngIf="!loading">{{ 'buttons.download' | translate }}</span>
         <mat-spinner *ngIf="loading" [diameter]="30" style="margin: 7px auto;"></mat-spinner>
       </button>
-      <button type="button" mat-raised-button (click)="goToLogin()" class="button btnSecondary">
+      <button type="button" mat-raised-button (click)="close('goLogin')" class="button btnSecondary">
         {{ 'buttons.login' | translate }}
-      </button>
-      <button type="button" mat-raised-button (click)="close()" class="button btnSecondary">
-        {{ 'buttons.cancel' | translate }}
       </button>
     </div>
     <div *ngIf="data.mode === 'connect'">

@@ -12,11 +12,16 @@
         "connect": "Connect",
         "cancel": "Cancel",
         "create": "Create",
-        "close": "Close"
+        "close": "Close",
+        "copy": "Copy to Clipboard"
     },
     "networks": {
-        "create": "Create a new network",
-        "connect": "Connect an existing network",
+        "create": "Create a network",
+        "create-description": "Create a network description",
+        "connect": "Connect a network",
+        "connect-description": "Connect a network description",
+        "default": "Connect a default network",
+        "default-description": "Connect a default network description"
     },
     "secret": {
         "no-data": "No data matching the filter"
@@ -42,12 +47,11 @@
                 "length": "The username must have at least 6 characters"
             },
             "password": {
-                "required": "The password is required",
-                "length": "The password must have at least 6 characters"
+                "required": "The password is required"
             },
             "url": {
                 "required": "The url is required",
-                "length": "The url must have at least 6 characters"
+                "length": "The url must have at least 3 characters"
             },
             "identity": {
                 "required": "The identity is required",
@@ -59,7 +63,9 @@
         "network": {
             "connected": "Successfull connection",
             "error": "Error to connect",
-            "error-create": "Error to create"
+            "error-create": "Error to create",
+            "error-qr-file": "Please upload a valid extension. Thanks",
+            "error-decode-qr": "Error decoding QR, please upload a valid QR code."
         },
         "secret": {
             "success-create": "Successfull secret",

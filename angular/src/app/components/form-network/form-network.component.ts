@@ -5,6 +5,8 @@ import { MessagesService } from 'src/app/services/messages/messages.service';
 import { NetworksService } from 'src/app/services/networks/networks.service';
 import { TranslateServiceLocal } from 'src/app/services/translate/translate.service';
 
+declare const ZXing: any;
+
 @Component({
   selector: 'app-form-network',
   templateUrl: './form-network.component.html',
@@ -15,22 +17,52 @@ export class FormNetworkComponent implements OnInit {
 
   networkForm: FormGroup;
   loading = false;
+  codeReader = new ZXing.BrowserQRCodeReader()
 
   constructor(
     private formBuilder: FormBuilder,
-    private translateServiceLocal: TranslateServiceLocal,
     public dialogRef: MatDialogRef<FormNetworkComponent>,
     private networksService: NetworksService,
     private messagesService: MessagesService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  close(): void {
-    this.dialogRef.close();
+  close(goLogin = null): void {
+    this.dialogRef.close(goLogin);
   }
 
-  goToLogin() {
-    close();
-    this.translateServiceLocal.changeRedirect('/login');
+  uploadFile($event) {
+    if ($event.target.files.length === 0) {
+      return;
+    }
+    const file = $event.target.files[0];
+    var mimeType = file.type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.messagesService.showErrorNotification('messages.network.error-qr-file', true);
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = () => {
+      var img = new Image(1,1);
+      img.src = reader.result + '';
+      try {
+        this.codeReader.decodeFromImage(img).then((result) => {
+          const data = JSON.parse(result);
+          console.log(data);
+          this.networkForm.patchValue({
+            hostname: data.hostname,
+            identity: data.identity
+          });
+        }).catch((error) => {
+          this.messagesService.showErrorNotification('messages.network.error-decode-qr', true);
+          console.error('ERROR!', error)
+        })
+      } catch (error) {
+        this.messagesService.showErrorNotification('messages.network.error-decode-qr', true);
+        console.error('ERROR!', error);
+      }
+    }
+    reader.readAsDataURL(file);
   }
 
   ngOnInit(): void {
@@ -46,14 +78,12 @@ export class FormNetworkComponent implements OnInit {
     if (this.networkForm.invalid) {
       return;
     }
-    if(this.data.mode === 'connect') {
+    if (this.data.mode === 'connect') {
       this.loading = true;
       this.networksService.connect(this.networkForm.value).subscribe(res => {
         this.loading = false;
-        this.close();
-        this.translateServiceLocal.changeRedirect('/login');
         this.messagesService.showSuccessNotification('messages.network.connected');
-        // this.dialogRef.close(res);
+        this.close('goLogin');
       }, error => {
         this.loading = false;
         this.messagesService.showErrorNotification('messages.network.error', true);

@@ -1,10 +1,16 @@
 .menus{
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   width: 90%;
 }
 
 .menu {
   cursor: pointer;
   margin: 0 20px;
+}
+
+.languages {
+  width: 5%;
+  padding-top: 8px;
 }

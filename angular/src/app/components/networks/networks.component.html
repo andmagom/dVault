@@ -2,14 +2,20 @@
 <div class="cards">
   <mat-card class="card" (click)="openDialog(true)">
     <mat-card-header>
-      <mat-card-title>{{ "networks.create" | translate}}</mat-card-title>
+      <mat-card-title style="text-align: center;">{{ "networks.create" | translate}}</mat-card-title>
     </mat-card-header>
     <img mat-card-image src="https://media.gcflearnfree.org/content/55e07819bae0135431cfdcc3_12_17_2013/Networking_image.jpg" alt="">
+  </mat-card>
+  <mat-card class="card" (click)="connectToDefault()">
+    <mat-card-header>
+      <mat-card-title style="text-align: center;">{{ "networks.default" | translate}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="https://images.squarespace-cdn.com/content/v1/56707bd6a2bab81f5faacb6d/1530301722023-T3GYS05QI0H5DIHSWBOH/ke17ZwdGBToddI8pDm48kAB8oyHfEiKIgiBwRxywG7NZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PIwTRLQcKwsGOlDZOi-xufV-TcobAsjtULqhmC-hU3xsQ/networking-infographic.png" alt="">
   </mat-card>
   <mat-card class="card" (click)="openDialog(false)">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>{{ "networks.connect" | translate}}</mat-card-title>
+      <mat-card-title style="text-align: center;">{{ "networks.connect" | translate}}</mat-card-title>
     </mat-card-header>
     <img mat-card-image src="https://www.lebow.drexel.edu/sites/default/files/story/1501077931-network.jpg" alt="">
   </mat-card>

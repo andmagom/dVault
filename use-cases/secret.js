@@ -7,7 +7,7 @@ const cipher = require('./cipher');
 const hash = require('./hash');
 const network = require('./network');
 
-const splitSize = process.env.SECRET_SPLIT_SIZE_BYTES || 50;
+const splitSize = process.env.SECRET_SPLIT_SIZE_BYTES || 70;
 const nReplication = process.env.NUMBER_REPLICATIONS || 4;
 
 const logger = newLogger({
