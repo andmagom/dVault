@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "run lint && npm run test:run",
-    "test:run": "jest",
+    "test:run": "mocha './{,!(angular|node_modules)/**}/*.spec.js'",
     "start": "node index.js"
   },
   "repository": {
@@ -43,8 +43,12 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.2"
   }
 }

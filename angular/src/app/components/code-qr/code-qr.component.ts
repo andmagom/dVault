@@ -23,6 +23,18 @@ export class CodeQRComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  ngOnInit(): void {}
+  download() {
+    var a = document.getElementsByTagName('img');
+    for (var i in a) {
+      if (a[i].src && a[i].src.substr(0,4) === 'data'){
+        var tagA = document.createElement("a");
+        tagA.href = a[i].src
+        tagA.download = "Dvault_QR.png";
+        tagA.click();
+      }
+    }
+  }
+
+  ngOnInit(): void { }
 
 }

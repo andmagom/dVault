@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const http = require('http');
+const path = require('path');
 const newLogger = require('../../use-cases/logger');
 const networkRoute = require('./routes/network');
 const secretRoute = require('./routes/secret');
@@ -33,6 +34,13 @@ app.use('/api/network', networkRoute);
 app.use('/api/secret', secretRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/register', registerRoute);
+
+app.use(['/login', '/:lang/login', '/secrets', '/:lang/secrets', '/networks', '/:lang/networks'], (req, res) => {
+  const options = {
+    root: path.join('./', 'public'),
+  };
+  res.sendFile('index.html', options);
+});
 
 const port = process.env.APP_PORT || 8686;
 

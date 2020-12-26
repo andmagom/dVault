@@ -3,13 +3,15 @@ const levelup = require('levelup');
 const leveldown = require('leveldown');
 const encoding = require('encoding-down');
 const kadence = require('@deadcanaries/kadence');
+const fs = require('fs');
 const newLogger = require('./logger');
 const errorUseCase = require('./error');
 
 let serverNode;
 
-const TOR_FOLDER = process.env.TOR_FOLDER || '/usr/src/app/hidden_service';
-const KADENCE_REFRESH = process.env.KADENCE_REFRESH || 36000;
+const TOR_FOLDER = process.env.TOR_FOLDER || '/usr/src/app/data/hidden_service';
+const KADEMLIA_FOLDER = process.env.KADEMLIA_FOLDER || './data/store';
+const KADENCE_REFRESH = process.env.KADENCE_REFRESH || 300000;
 
 const logger = newLogger({
   console_level: 'info',
@@ -28,14 +30,30 @@ const errorJoiningNetwork = (err, reject) => {
   reject(errorResponse);
 };
 
-function createIdentity() {
-  return kadence.utils.getRandomKeyBuffer();
+function createFolderKademlia() {
+  if (!fs.existsSync(KADEMLIA_FOLDER)) {
+    fs.mkdirSync(KADEMLIA_FOLDER);
+  }
+}
+
+function readeOrCreateIdentity() {
+  createFolderKademlia();
+  const pathFile = `${KADEMLIA_FOLDER}/identity`;
+  let identity = null;
+  if (fs.existsSync(pathFile)) {
+    identity = fs.readFileSync(pathFile,
+      { encoding: 'utf8', flag: 'r' });
+  } else {
+    identity = kadence.utils.getRandomKeyBuffer();
+    fs.writeFileSync(pathFile, Buffer.from(identity).toString('hex'));
+  }
+  return identity;
 }
 
 function createNode(identity) {
   const nodeKadence = new kadence.KademliaNode({
     transport: new kadence.HTTPTransport(),
-    storage: levelup(encoding(leveldown('./data/storage.db'))),
+    storage: levelup(encoding(leveldown('./data/store/storage.db'))),
     logger,
     identity,
   });
@@ -83,7 +101,7 @@ function listen(node) {
       logger.info(`Node Identity: ${Buffer.from(node.identity).toString('hex')}`);
       logger.info(
         `node listening on local port ${1337} `
-        + `and exposed at ${node.contact.protocol}//${node.contact.hostname}`
+        + `and exposed at https://${node.contact.hostname}`
         + `:${node.contact.port}`,
       );
 
@@ -115,7 +133,7 @@ function joinNet(nodeData) {
 
 function createNetwork() {
   if (serverNode == null) {
-    const identity = createIdentity();
+    const identity = readeOrCreateIdentity();
     const node = createNode(identity);
     node.onion = addOnionPlugin(node);
     return listen(node);

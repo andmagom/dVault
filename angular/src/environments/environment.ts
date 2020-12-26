@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   apiServer: 'http://localhost:8686/api',
   apiSocket: 'http://localhost:8686',
-  secretKey: 's4hu6HUmcEtBpQGhg4Ts'
+  secretKey: 's4hu6HUmcEtBpQGhg4Ts',
+  defaultHostname: '5qpybw544tvvt6bi333vv2u4lmy3xfiarezqhtnbtxpqzjy7m75iixid.onion',
+  defaultIdentity: 'c712627adf609defe987e49801292d1906f4ce84'
 };
 
 /*

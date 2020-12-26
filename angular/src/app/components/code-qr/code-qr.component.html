@@ -1,6 +1,9 @@
 <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="data.dataQR"
   cssClass="bshadow" style="text-align: center;">
 </ngx-qrcode>
-<button type="button" mat-raised-button (click)="close()" class="button btnSecondary">
+<button type="button" mat-raised-button (click)="download()" class="button btnPrimary">
+  {{ 'buttons.download' | translate }}
+</button>
+<button type="button" mat-raised-button (click)="close()" class="button btnSecondary" style="margin-top: 2% !important;">
   {{ 'buttons.close' | translate }}
 </button>

@@ -4,6 +4,7 @@ import { MessagesService } from 'src/app/services/messages/messages.service';
 import { NetworksService } from 'src/app/services/networks/networks.service';
 import { TranslateServiceLocal } from 'src/app/services/translate/translate.service';
 import { FormNetworkComponent } from '../form-network/form-network.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-networks',
@@ -16,7 +17,7 @@ export class NetworksComponent implements OnInit {
   loading = false;
 
   constructor(
-    private translateService: TranslateServiceLocal,
+    private translateServiceLocal: TranslateServiceLocal,
     public dialog: MatDialog,
     private networksService: NetworksService,
     private messagesService: MessagesService
@@ -39,7 +40,6 @@ export class NetworksComponent implements OnInit {
     } else {
       this.open({ mode: 'connect'});
     }
-    
   }
 
   open(data) {
@@ -50,7 +50,25 @@ export class NetworksComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('closed: ', result)
+      if(result == 'goLogin') {
+        this.translateServiceLocal.changeRedirect('/login');
+      }
+    });
+  }
+
+  connectToDefault() {
+    this.loading = true;
+    this.networksService.connect({
+      hostname: environment.defaultHostname,
+      identity: environment.defaultIdentity
+    }).subscribe(res => {
+      this.loading = false;
+      this.messagesService.showSuccessNotification('messages.network.connected');
+      this.translateServiceLocal.changeRedirect('/login');
+    }, error => {
+      this.loading = false;
+      this.messagesService.showErrorNotification('messages.network.error', true);
+      console.log(error);
     });
   }
 

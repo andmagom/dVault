@@ -34,7 +34,7 @@ export class FormSecretComponent implements OnInit {
     this.secretForm = this.formBuilder.group({
       web: ['', [Validators.required, Validators.minLength(3)]],
       user: [''],
-      passwd: ['', [Validators.required, Validators.minLength(3)]],
+      passwd: ['', [Validators.required]],
       meta: ['']
     });
   }
@@ -46,6 +46,9 @@ export class FormSecretComponent implements OnInit {
       return;
     }
     let lastIds = this.loginService.getLocalStorage('last_secret_dvault');
+    if(typeof lastIds === 'string') {
+      lastIds = JSON.parse(lastIds);
+    }
     const dataForm = this.secretForm.value
     dataForm['date'] = new Date();
     dataForm['id'] = lastIds.nextId
@@ -54,7 +57,6 @@ export class FormSecretComponent implements OnInit {
       "lastId": lastIds.lastId,
       "content": dataForm
     }
-    console.log(data);
     this.loading = true;
     this.secretService.create(data).subscribe(res => {
       this.loading = false;

@@ -1,12 +1,12 @@
 const oHash = require('object-hash');
-const crypto = require('crypto');
 const pbkdf2 = require('pbkdf2');
+// const crypto = require('crypto');
 
 function objectHash(value) {
   return oHash(value);
 }
 
-function variableHash(size, data, inputEncoding) {
+/* function variableHash(size, data, inputEncoding) {
   // Generate 256-bit hash of data
   let hash = crypto.createHash('sha256');
   hash.update(data, inputEncoding);
@@ -18,7 +18,7 @@ function variableHash(size, data, inputEncoding) {
   const offset = output.write(cipher.update(output), 0, size, 'binary');
   output.write(cipher.final(), offset, 'binary');
   return output;
-}
+} */
 
 function hashKey(key) {
   const key256 = pbkdf2.pbkdf2Sync(key, key, 1, 256 / 8, 'sha512');

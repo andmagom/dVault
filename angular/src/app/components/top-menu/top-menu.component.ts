@@ -3,12 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from 'src/app/services/login/login.service';
 import { TranslateServiceLocal } from 'src/app/services/translate/translate.service';
 import { CodeQRComponent } from '../code-qr/code-qr.component';
+import { NetworksService } from 'src/app/services/networks/networks.service';
 
 @Component({
   selector: 'app-top-menu',
   templateUrl: './top-menu.component.html',
   styleUrls: ['./top-menu.component.css'],
-  providers: [ LoginService, TranslateServiceLocal]
+  providers: [ LoginService, TranslateServiceLocal, NetworksService]
 })
 export class TopMenuComponent implements OnInit, OnChanges {
 
@@ -18,17 +19,25 @@ export class TopMenuComponent implements OnInit, OnChanges {
   constructor(
     private loginService: LoginService,
     private translateService: TranslateServiceLocal,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private networksService: NetworksService
   ) { }
 
   ngOnInit(): void {
     this.inizialization = true;
+    if(this.loginService.currentUserValue) {
+      this.userInSession = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes && changes.userInSession && !this.inizialization) {
       this.inizialization = true;
     }
+  }
+
+  changeRegirect(url){
+    this.translateService.changeRedirect(url);
   }
 
   logout() {
@@ -38,10 +47,16 @@ export class TopMenuComponent implements OnInit, OnChanges {
   }
 
   downloadQr() {
-    const dataQR = {
-      dataQR: "https://www.techiediaries.com/"
-    }
-    this.openModal(dataQR);
+    this.networksService.create().subscribe(res => {
+      const data = {
+        hostname: res.hostname,
+        identity: res.identity
+      }
+      const dataQR = {
+        dataQR: JSON.stringify(data)
+      }
+      this.openModal(dataQR);
+    });
   }
 
   openModal(data) {
