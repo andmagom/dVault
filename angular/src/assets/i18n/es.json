@@ -1,5 +1,72 @@
 {
     "login": {
-        "title": "Dvault"
+        "title": "Dvault",
+        "goToRegister": "Registrar Usuario",
+        "goToLogin": "Ir a Login",
+        "subTitle": "Dvault"
+    },
+    "buttons": {
+        "login": "Login",
+        "register": "Registrar",
+        "download": "Descargar QR",
+        "connect": "Conectar",
+        "cancel": "Cancelar",
+        "create": "Crear",
+        "close": "Cerrar",
+        "copy": "copiar"
+    },
+    "networks": {
+        "create": "Crear una red",
+        "connect": "Conectar a una red",
+        "default": "Conectar a una red por defecto"
+    },
+    "secret": {
+        "no-data": "Ningún dato coincide con el filtro"
+    },
+    "menu": {
+        "network": "Network",
+        "secret": "Secreto",
+        "qr": "Decargar QR",
+        "login": "Login"
+    },
+    "form": {
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "url": "URL",
+        "identity": "Identidad",
+        "platform": "Plataforma",
+        "user": "Usuario",
+        "description": "Descripción",
+        "date": "Fecha",
+        "error": {
+            "username": {
+                "required": "El nombre de usuario es requerido",
+                "length": "El nombre de usuario debe tener al menos 6 caracteres"
+            },
+            "password": {
+                "required": "La contraseña es requerida"
+            },
+            "url": {
+                "required": "La URL es requerida",
+                "length": "la url debe tener al menos 3 caracteres"
+            },
+            "identity": {
+                "required": "La identidad es requerida",
+                "length": "La identidad debe tener almenos 6 caracteres"
+            }
+        }
+    },
+    "messages" : {
+        "network": {
+            "connected": "Conexión exitosa",
+            "error": "Error al conectar",
+            "error-create": "Error al crear",
+            "error-qr-file": "Por favor cargue una extención válida",
+            "error-decode-qr": "Error al decodificar el QR, por favor carque un QR válido"
+        },
+        "secret": {
+            "success-create": "Secreto creado",
+            "error-create": "Error al crear el secreto"
+        }
     }
 }

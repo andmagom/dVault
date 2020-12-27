@@ -17,11 +17,8 @@
     },
     "networks": {
         "create": "Create a network",
-        "create-description": "Create a network description",
         "connect": "Connect to a network",
-        "connect-description": "Connect a network description",
-        "default": "Connect to a default network",
-        "default-description": "Connect a default network description"
+        "default": "Connect to a default network"
     },
     "secret": {
         "no-data": "No data matching the filter"
@@ -69,7 +66,7 @@
             "error-decode-qr": "Error decoding QR, please upload a valid QR code."
         },
         "secret": {
-            "success-create": "Successfull secret",
+            "success-create": "Successfull",
             "error-create": "Error creating secret"
         }
     }
