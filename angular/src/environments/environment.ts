@@ -7,8 +7,8 @@ export const environment = {
   apiServer: 'http://localhost:8686/api',
   apiSocket: 'http://localhost:8686',
   secretKey: 's4hu6HUmcEtBpQGhg4Ts',
-  defaultHostname: '5qpybw544tvvt6bi333vv2u4lmy3xfiarezqhtnbtxpqzjy7m75iixid.onion',
-  defaultIdentity: 'c712627adf609defe987e49801292d1906f4ce84'
+  defaultHostname: 'ngr6btie7vmcfgwa5wktqunhze4pbelx3mfntesnpme5owp6u3q33jid.onion',
+  defaultIdentity: '59d243c78611a12c7b1f40fff9a9a9c22d6ccb83'
 };
 
 /*
